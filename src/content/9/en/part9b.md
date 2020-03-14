@@ -617,7 +617,7 @@ Let's install <i>ts-node-dev</i> to our development dependencies
 npm install --save-dev ts-node-dev
 ```
 
-add add a script to <i>package.json</i>
+add a script to <i>package.json</i>
 
 ```json
 {
@@ -722,7 +722,7 @@ When we hover on the <i>calculate</i> function, we can see the typing of the <i>
 ![](../../images/9/12a.png)
 
 
-But when we hover over the parsed values from the request, ann issues arise:
+But when we hover over the parsed values from the request, an issue arises:
 
 ![](../../images/9/13a.png)
 
@@ -732,7 +732,7 @@ In TypeScript every untyped variable, for which the type cannot be inferred, bec
 
 The type <i>any</i> can also be explicitly specified as any other type. The only difference between these two is how the code looks, the compiler is not affected from the difference.
 
-However, implicit <i>any</i> and explicit enforcing of the <i>any</i> type onto a variable affects how a programmer sees the code. Implicit typings of <i>any</i> are usually considered problematic, since it  is quite often a matter of the coder simply forgotting to assign types (or being too lazy to do that) and because of that not exploiting the full power TypeScript in the code.
+However, implicit <i>any</i> and explicit enforcing of the <i>any</i> type onto a variable affects how a programmer sees the code. Implicit typings of <i>any</i> are usually considered problematic, since it  is quite often a matter of the coder simply forgetting to assign types (or being too lazy to do that) and because of that not exploiting the full power TypeScript in the code.
 
 This is why the rule [noImplicitAny](https://www.typescriptlang.org/v2/en/tsconfig#noImplicitAny) exists already on compiler level and it is highly recommended to keep it on at all time. In the rare cases where you seriously cannot know what the type of a variable is, you should explicitly state it in the code
 
@@ -828,7 +828,7 @@ And now let's fix everything that needs to be fixed!
 
 #### 9.6 Eslint
 
-Configure your project to use the above eslint settings and fix all the warnings.
+Configure your project to use the eslint settings above and fix all the warnings.
 
 #### 9.7 WebExercises
 
@@ -879,6 +879,6 @@ In this exercise you might find it beneficial to use the <i>explicit any</i> typ
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ```
 
-Note that you need to have a correct setup in order to get hold to the request body, see [part 3](/en/part3/node_js_and_express#receiving-data).
+Note that you need to have a correct setup in order to get hold of the request body, see [part 3](/en/part3/node_js_and_express#receiving-data).
 
 </div>
