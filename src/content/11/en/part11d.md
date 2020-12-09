@@ -31,12 +31,12 @@ To open a new pull request, open your branch in GitHub and click on the green "C
 
 ![Open a new pull request](../../images/11/part11d_01.png)
 
-GitHub's pull request interface presents a description and the discussion interface. At the bottom, it displays all the CI checks (in our case each of our Github Actions) that are configured to run for each PR and the statuses of these checks. A green board is what you aim for! You can click on Details of each check to view details and run logs.
+GitHub's pull request interface presents a description and the discussion interface. At the bottom, it displays all the CI checks (in our case each of our Github Actions) that are configured to run for each PR and the statuses of these checks. A green board is what you aim for! You can click on Details on each check to view details and run logs.
 
 
 All the workflows we looked at so far were triggered by commits to master branch. To make the workflow run for each pull request we would have to update the trigger part of the workflow. We use the "pull_request" trigger for branch "master" and limit the trigger to events "opened" and "synchronize". Basically, this means, that the workflow will run when a PR into master is opened or updated.
 
-So let us change events that [trigger](https://docs.github.com/en/free-pro-team@latest/actions/reference/events-that-trigger-workflows) of the workflow as follows:
+So let us change events that [trigger](https://docs.github.com/en/free-pro-team@latest/actions/reference/events-that-trigger-workflows) the workflow as follows:
 
 ```js
 on:
@@ -80,7 +80,7 @@ Once the checks have been run, the status should turn to green. Make sure all th
 
 All looks good, but there is actually a pretty serious problem with the current workflow. All the steps, including the deployment, are run also for pull requests. This is surely something we do not want!
 
-Fortunately, there is an easy for the problem! We can add an [if](https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idif) condition to the deployment step, which ensures that the step is executed only when the code is being merged or pushed to master.
+Fortunately, there is an easy solution for the problem! We can add an [if](https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idif) condition to the deployment step, which ensures that the step is executed only when the code is being merged or pushed to master.
 
 The workflow [context](https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#contexts) gives various kinds of information about the code the workflow is run.
 
@@ -130,7 +130,7 @@ For the two repo based approaches, the approach with something in the code usual
 
 In semantic versioning, even if we have version bumps of different types (major, minor, or patch) it's still quite easy to put the releases in order: 1.3.7 comes before 2.0.0 which itself comes before 2.1.5 which comes before 2.2.0. A list of releases (conveniently provided by a package manager or GitHub) is still needed to know what the last version is but it's easier to look at that list and discuss it: It's easier to say "We need to roll back to 3.2.4" than to try communicate a hash in person.
 
-That's not to say that hashes are inconvenient: if you know which commit caused the particular problem, it's easy enough to look back through a git history and get the hash of the previous commit. But if you have two hashes, say <code>d052aa41edfb4a7671c974c5901f4abe1c2db071</code> and <code>12c6f6738a18154cb1cef7cf0607a681f72eaff3</code>, you really can not say which become earlier in history, you need something more, such as the git log that reveals the ordering.
+That's not to say that hashes are inconvenient: if you know which commit caused the particular problem, it's easy enough to look back through a git history and get the hash of the previous commit. But if you have two hashes, say <code>d052aa41edfb4a7671c974c5901f4abe1c2db071</code> and <code>12c6f6738a18154cb1cef7cf0607a681f72eaff3</code>, you really can not say which comes earlier in history, you need something more, such as the git log that reveals the ordering.
 
 #### Comparing the Two
 
@@ -146,7 +146,7 @@ Having an error happen when something goes wrong is almost always preferable to 
 
 #### Best of Both Worlds
 
-From the above comparison, it would seem that the semantic versioning makes sense for releasing software while hash-based versioning (or artifact naming) makes more sense during development. This doesn't necessarily cause a conflict.
+From the comparison above, it would seem that the semantic versioning makes sense for releasing software while hash-based versioning (or artifact naming) makes more sense during development. This doesn't necessarily cause a conflict.
 
 Think of it this way: versioning boils down to a technique that points to a specific commit and says "We'll give this point a name, it's name will be 3.5.5". Nothing is preventing us from also referring to the same commit by its hash.
 
@@ -154,7 +154,7 @@ There is a catch. We discussed at the beginning of this part that we always have
 
 For example, when we have a project that uses hash-based artifact builds for testing, it's always possible to track the result of every build, lint, and test to a specific commit and developers know the state their code is in. This is all automated and transparent to the developers. They never need to be aware of the fact that the CI system is using the commit hash underneath to name build and test artifacts. When the developers merge their code to master, again the CI takes over. This time, it will build and test all the code and give it a semantic version number all in one go. It attaches the version number to the relevant commit with a git tag.
 
-In the above case, the software we release is tested because the CI system makes sure that tests are run on the code it is about to tag. It would not be incorrect to say that the project uses semantic versioning and simply ignore that the CI system tests individual developer branches/PRs with a hash-based naming system. We do this because the version we care about (the one that is released) is given a semantic version.
+In the case above, the software we release is tested because the CI system makes sure that tests are run on the code it is about to tag. It would not be incorrect to say that the project uses semantic versioning and simply ignore that the CI system tests individual developer branches/PRs with a hash-based naming system. We do this because the version we care about (the one that is released) is given a semantic version.
 
 </div>
 
@@ -181,7 +181,7 @@ The [anothrNick/github-tag-action](https://github.com/anothrNick/github-tag-acti
 
 As you can see from the documentation by default your releases will receive a *minor* bump, meaning that the middle number will be incremented.
 
-Modify the above configuration so that each new version is by default a _batch_ bump in the version number, so that by default, the last number is increased. 
+Modify the configuration above so that each new version is by default a _batch_ bump in the version number, so that by default, the last number is increased. 
 
 Remember that we want only to bump the version when the change happens to master branch! So add a similar <code>if</code> condition to prevent version bumps on pull request as was done in [Exercise 11.15](/en/part11/keeping_green#exercises-11-14-15)
  to prevent deployment on pull request releated events.
@@ -273,7 +273,7 @@ It would also be possible to install a tool such as [act](https://github.com/nek
 
 When using a third party action such that <i>github-tag-action</i> it might be a good idea to specify the used version with hash instead of using a version number. The reason for this is that the version number, that is implemented with a git tag can in principle be <i>moved</i>. So today's version 1.33.0 might be a different code that is at the next week the version 1.33.0! 
 
-However, the code in commit with a particular has does not change in any circumstances, so if we want to be 100% sure about the code we use, it is safest to use the hash. 
+However, the code in commit with a particular hash does not change in any circumstances, so if we want to be 100% sure about the code we use, it is safest to use the hash. 
 
 The version [1.33.0](https://github.com/anothrNick/github-tag-action/releases) of the action corresponds to commit with hash <code>9eca2b69f9e2c24be7decccd0f15fdb1ea5906598</code>, so we might want to change our configuration as follows:
 
@@ -315,7 +315,7 @@ To set up protection for your master branch, navigate to repository "Settings" f
 
 Add protection to your master branch.
 
-You should protect it to:
+You should protect it from:
 - Require all pull request to be approved before merging
 - Require all status checks to pass before merging
 
